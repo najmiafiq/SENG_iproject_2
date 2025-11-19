@@ -1,5 +1,77 @@
 <!DOCTYPE html>
-<canvas>
+<html lang="en">
 
-</canvas>
-<script src="../js/index.js"></script>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/css/style.css">
+    <title>TEMMEN</title>
+</head>
+
+<body>
+
+    <div class="container">
+
+        <div id="menu" class="menu">
+
+            <div class="title; animate-charcter">
+                Tekken from TEMU
+            </div>
+            <div class="options">
+                <div id="1P" class="menuOption">
+                    Player vs AI
+                </div>
+                <div id="2P" class="menuOption">
+                    Player vs Player
+                </div>
+            </div>
+            <div class="author">Made by Najmi</div>
+        </div>
+
+        <div id="hud" class="hud">
+
+            <!-- Player's health -->
+            <div class="healthLayout">
+                <div class="remainingHealthbar"></div>
+                <div id="P1Health" class="totalHealthBar"></div>
+            </div>
+            <!-- Timer -->
+            <div id="timebox" class="timer"> -- </div>
+
+            <!-- P2's health -->
+            <div class="healthLayout">
+                <div class="remainingHealthbar"></div> 
+                <div id="P2Health" class="totalHealthBar"></div>
+            </div>
+        </div>
+        <div id="result" class="result"> result </div>
+        <div class="game">
+            <canvas id="gameWindow"> </canvas>
+        </div>
+
+    </div>
+
+    <div class="information">
+        <div class="keymapping">
+            <div class="keys">
+                <h1> Player 1 </h1>
+                <p> Movement: WASD </p>
+                <p> Attack: Spacebar </p>
+            </div>
+            <div class="keys">
+                <h1> Player 2 </h1>
+                <p> Movement: Arrow keys </p>
+                <p> Attack: Alt key </p>
+            </div>
+        </div>
+    </div>
+
+    
+    
+</body>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.9.1/gsap.min.js"
+    integrity="sha512-H6cPm97FAsgIKmlBA4s774vqoN24V5gSQL4yBTDOY2su2DeXZVhQPxFK4P6GPdnZqM9fg1G3cMv5wD7e6cFLZQ=="
+    crossorigin="anonymous"
+    referrerpolicy="no-referrer"></script>
+<script type="module" src="../js/index.js"> </script>
+</html>

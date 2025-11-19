@@ -1,4 +1,4 @@
-# SENG_iproject
+# SENG_individual_project_1
 
 Multiplayer Fighting Game based on Canvas, HTML and Node
 Currently only able to do PvP or PvE
@@ -8,15 +8,25 @@ Based on this Youtube tutorial by Chris Courses
 
 ## How to Play
 
-Use W, A, S, D to move your character
-Press Space to attack
+### P1
+
+- Use W, A, S, D to move your character
+- Press Space to attack
+
+### P2
+
+- Use Arrow Keys to move your character
+- Press Alt to attack
 
 ## Set up
 
-Clone the repo and run index.html
+Make sure you have latest npm
+
+- Clone the repo
+- Type npx http-server in the repo directory
 
 ## TO-DO
 
-Add Online Multiplayer Function using socket.io
-Add Character Selection Page
-Do more moves instead of just one
+- Add Online Multiplayer Function using socket.io
+- Add Character Selection Page
+- Do more moves instead of just one

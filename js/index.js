@@ -1,168 +1,140 @@
+import { player1, player2 } from './Fighter.js';
+import { background, shop } from './Sprite.js';
+import { loadKeyDownEvents, loadKeyUpEvents } from './Keys.js';
+
 const canvas = document.querySelector('canvas');
 const c = canvas.getContext('2d');
+let timer = 30; //Game timer - TODO: adjustable timer
+let timerID;   //Use to clearTimeout.
+let gameEnded = false; //Flag to determine whether game ended or not.
+//TODO: Proper Restart Button
 
-canvas.width = 1024;
-canvas.height = 576;
+loadKeyDownEvents(player1, player2); //Load P1 and P2 KeyDown events.
+loadKeyUpEvents(player1, player2);  //Load P1 and P2 KeyUp events.
 
-c.fillRect(0, 0, canvas.width, canvas.height);
+const onePlayer = document.getElementById("1P");
+const twoPlayers = document.getElementById("2P");
 
-const gravity = 0.7
-class Sprite {
-    constructor({ position, velocity, color }) {
-        this.position = position,
-        this.velocity = velocity,
-        this.height = 150,
-        this.lastKey,
-        this.attackHBox = {
-            position: this.position,
-            width: 100,
-            height: 50
-        },
-        this.color = color
-    }
+onePlayer.addEventListener("click", () => {
+    intervalBot();
+    startGame();
+});
 
-    draw() {
-        c.fillStyle = this.color;
-        c.fillRect(this.position.x, this.position.y, 50, this.height);
+twoPlayers.addEventListener("click", () => {
+    startGame();
+});
 
-        //attack box
-        c.fillStyle = 'green';
-        c.fillRect(this.attackHBox.position.x, this.attackHBox.position.y, this.attackHBox.width, this.attackHBox.height);
-    }
 
-    update() {
-        this.draw();
-        
-        this.position.x += this.velocity.x;
-        this.position.y += this.velocity.y;
-        if (this.position.y + this.height + this.velocity.y >= canvas.height) {
-            this.velocity.y = 0;
-        }else this.velocity.y += gravity;
-    }
-}
-
-const player1 = new Sprite({
-    position: {
-    x: 0,
-    y: 0
-    },
-    velocity: {
-        x: 0,
-        y: 0
-    },
-    color: 'red'
-})
-
-player1.draw();
-
-const player2 = new Sprite({
-    position: {
-    x: 800,
-    y: 0
-    },
-    velocity: {
-        x: 0,
-        y: 0
-    },
-    color: 'blue'
-})
-
-player2.draw();
-
-const keys = {
-    a: {
-        pressed: false
-    },
-    d: {
-        pressed: false
-    },
-    w: {
-        pressed: false
-    },
-    ArrowRight: {
-        pressed: false
-    },
-    ArrowLeft: {
-        pressed: false
-    },
-    ArrowUp: {
-        pressed: false
-    }
+//Main function to start the game after the menu
+function startGame() {
+    document.getElementById('menu').style.display = "none"; //Hide menu
+    c.fillRect(0, 0, canvas.width, canvas.height);  //Simulate loading screen with black screen
+    setTimeout(() => {
+        animate();      //Start the animation function
+        decreaseTimer();//Start timer countdown
+        document.getElementById('hud').style.display = "flex"; //Show HUD
+    }, 1000) //Simulate 1 sec loading time
 }
 
 
+//Timer function. 
+function decreaseTimer() {
+    if (timer > 0) {
+        timerID = setTimeout(decreaseTimer, 1000); //Call this function every 1 second
+        timer--;
+        document.querySelector('#timebox').innerHTML = timer; //Update the timer box
+    } else  //timer runs out, determine winner by health
+        determineWinner({ player1, player2, timerID });
+}
+
+//Animate the sprites
 function animate() {
-    window.requestAnimationFrame(animate);
-    c.fillStyle = 'black'
-    c.fillRect(0, 0, canvas.width, canvas.height);
-    player1.update();
-    player2.update();
-
+    window.requestAnimationFrame(animate); //Recursive function
+    background.update();
+    shop.update();
+    update(player1);
+    update(player2);
+    //Reset the x velocity for both players to make sure this is the default state.
     player1.velocity.x = 0;
     player2.velocity.x = 0;
 
-    //player1 movement
-    if (keys.a.pressed && player1.lastKey === 'a') {
-        player1.velocity.x = -5;
-    } else if (keys.d.pressed && player1.lastKey === 'd') {
-        player1.velocity.x = 5;
+    //default state 
+    if (!player1.movement() && !player1.isAttacking && !player1.isHit) {
+        player1.switchSprite('idle');
     }
 
-    //player2 movement
-    if (keys.ArrowLeft.pressed && player2.lastKey === 'ArrowLeft') {
-        player2.velocity.x = -5;
-    } else if (keys.ArrowRight.pressed && player2.lastKey === 'ArrowRight') {
-        player2.velocity.x = 5;
+    if (!player2.movement() && !player2.isAttacking && !player2.isHit) {
+        player2.switchSprite('idle');
     }
 
-    if (player1.attackHBox.position.x + player1.attackHBox.width >= player2.position.x) {
-        
+    player1.attack(player2);
+    player2.attack(player1);
+
+    if (!gameEnded) {
+        if (player2.health <= 0 || player1.health <= 0)
+            determineWinner({ player1, player2, timerID });
     }
 }
 
-animate();
+//Bot Behaviors Management - Completely random
+function intervalBot() {
+    setInterval(botMove, 500); //Evaluate for moving every 0.5 sec
+    setInterval(botAttack, 500); //Evalute for attacking every 0.5 sec
+}
 
-window.addEventListener('keydown', (event) => {
-    switch (event.key) {
-        case 'd':
-            keys.d.pressed = true;
-            player1.lastKey = 'd'
-            break;
-        case 'a':
-            keys.a.pressed = true;
-            player1.lastKey = 'a';
-            break;
-        case 'w':
-            player1.velocity.y = -20;
-            break;
-        
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = true;
-            player2.lastKey = 'ArrowRight';
-            break;
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = true;
-            player2.lastKey = 'ArrowLeft';
-            break;
-        case 'ArrowUp':
-            player2.velocity.y = -20;
-            break;
-    }
-})
+//Bot moves randomly: 45% chance of forward or backwards, 10% idle.
+//The period of time for the movement is also random.
+function botMove() {
+    let randomFloat = Math.random();
 
-window.addEventListener('keyup', (event) => {
-    switch (event.key) {
-        case 'd':
-            keys.d.pressed = false;
-            break;
-        case 'a':
-            keys.a.pressed = false;
-            break;
-        case 'ArrowRight':
-            keys.ArrowRight.pressed = false;
-            break;
-        case 'ArrowLeft':
-            keys.ArrowLeft.pressed = false;
-            break;
+    if (randomFloat < 0.45) {
+        window.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowLeft' }))
+        setTimeout(() => {
+            window.dispatchEvent(new KeyboardEvent('keyup', { 'key': 'ArrowLeft' }))
+        }, randomFloat * 3000); //Random time up to 1.5 sec
+    }else if (randomFloat < 0.85) {
+        window.dispatchEvent(new KeyboardEvent('keydown', { 'key': 'ArrowRight' }))
+        setTimeout(() => {
+            window.dispatchEvent(new KeyboardEvent('keyup', { 'key': 'ArrowRight' }))
+        }, (randomFloat - 0.45) * 3000); //Random time up to 1.5 sec
     }
-})
+}
+
+//Bot attacks the player if in range and his cooldown is available
+function botAttack() {
+    //Check if in range
+    if (player2.attackCooldown && player2.isHitting(player1)) {
+        player2.isAttacking = true;
+        player2.attack(player1);
+        setTimeout(() => { player2.isAttacking = false; }, 1000)
+    }
+}
+
+//Make key presses work only when fighter is alive
+function update(fighter) {
+    if (fighter.health > 0) { //Allow movement and attacks only if alive
+        fighter.update();
+    } else {                //If dead, only draw on screen, movement is restricted
+        fighter.animateFrames();
+        fighter.draw();
+    }
+}
+
+function determineWinner({ player1, player2, timerID }) {
+    clearTimeout(timerID); //Stop the timer
+    gameEnded = true;
+    document.querySelector('#result').style.display = 'flex' //make the result visible
+    if (player1.health === player2.health){
+        document.querySelector('#result').innerHTML = 'DRAW';
+    } else if (player1.health > player2.health) {
+        document.querySelector('#result').innerHTML = 'PLAYER 1 WIN';
+        player2.switchSprite('death');
+    } else {
+        document.querySelector('#result').innerHTML = 'PLAYER 2 WIN';
+        player1.switchSprite('death');
+    }
+
+    setTimeout(() => {
+        location.reload();
+    }, 2000)
+}

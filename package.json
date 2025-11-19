@@ -16,5 +16,9 @@
   "bugs": {
     "url": "https://github.com/najmiafiq/SENG_iproject/issues"
   },
-  "homepage": "https://github.com/najmiafiq/SENG_iproject#readme"
+  "homepage": "https://github.com/najmiafiq/SENG_iproject#readme",
+  "dependencies": {
+    "gsap": "^3.13.0",
+    "http-server": "^14.1.1"
+  }
 }
