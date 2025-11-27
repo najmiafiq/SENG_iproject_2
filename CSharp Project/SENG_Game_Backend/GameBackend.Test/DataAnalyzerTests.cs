@@ -23,13 +23,13 @@ namespace GameBackend.Tests
             _catalog = new CharacterCatalog();
 
             // Character A: Top Fighter
-            _catalog.Add(new FighterCharacter { name = "A-TOP", style = "Karate", healthBase = 1000, attackMultiplier = 1.30, speed = 10, matchesPlayed = 100, wins = 90 }); // 90.0% Win Rate
+            _catalog.Add(new FighterCharacter { Name = "A-TOP", Style = "Karate", healthBase = 1000, attackMultiplier = 1.30, speed = 10, matchesPlayed = 100, wins = 90 }); // 90.0% Win Rate
 
             // Character B: Mid Fighter
-            _catalog.Add(new FighterCharacter { name = "B-MID", style = "Judo", healthBase = 950, attackMultiplier = 0.90, speed = 5, matchesPlayed = 200, wins = 100 }); // 50.0% Win Rate
+            _catalog.Add(new FighterCharacter { Name = "B-MID", Style = "Judo", healthBase = 950, attackMultiplier = 0.90, speed = 5, matchesPlayed = 200, wins = 100 }); // 50.0% Win Rate
 
             // Character C: Low Fighter (Same Style as A)
-            _catalog.Add(new FighterCharacter { name = "C-LOW", style = "Karate", healthBase = 1050, attackMultiplier = 1.10, speed = 3, matchesPlayed = 100, wins = 10 }); // 10.0% Win Rate
+            _catalog.Add(new FighterCharacter { Name = "C-LOW", Style = "Karate", healthBase = 1050, attackMultiplier = 1.10, speed = 3, matchesPlayed = 100, wins = 10 }); // 10.0% Win Rate
 
             // 2. Setup console capture for testing output (since DataAnalyzer prints directly)
             _consoleOutput = new StringWriter();

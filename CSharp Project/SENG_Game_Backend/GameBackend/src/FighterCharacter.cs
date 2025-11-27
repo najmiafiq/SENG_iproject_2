@@ -11,8 +11,8 @@ namespace SENG_Game_Backend.src
         public int id {  get; set; }
 
         //Core Identity
-        public string name { get; set; }
-        public string style { get; set; }
+        public string Name { get; set; }
+        public string Style { get; set; }
 
         //Core stats
         public int healthBase { get; set; } //Base HP
@@ -27,7 +27,7 @@ namespace SENG_Game_Backend.src
 
         public override string ToString()
         {
-            return $"[ID: {id}] {name} ({style}) - HP: {healthBase} | ATK: {attackMultiplier:F2} | SPD: {speed} | Win Rate: {winRate:P0}";
+            return $"[ID: {id}] {Name} ({Style}) - HP: {healthBase} | ATK: {attackMultiplier:F2} | SPD: {speed} | Win Rate: {winRate:P0}";
         }
     }
 }

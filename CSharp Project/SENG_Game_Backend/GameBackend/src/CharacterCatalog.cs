@@ -29,8 +29,8 @@ public class CharacterCatalog
         if (existing == null) return false;
 
         // A professional update only touches allowed fields
-        existing.name = updatedCharacter.name;
-        existing.style = updatedCharacter.style;
+        existing.Name = updatedCharacter.Name;
+        existing.Style = updatedCharacter.Style;
         existing.healthBase = updatedCharacter.healthBase;
         existing.attackMultiplier = updatedCharacter.attackMultiplier;
         existing.defenseMultiplier = updatedCharacter.defenseMultiplier;
@@ -59,8 +59,8 @@ public class CharacterCatalog
             var character = new FighterCharacter
             {
                 id = _nextId++,
-                name = names[_random.Next(names.Length)] + _nextId, // Ensure unique-ish name
-                style = styles[_random.Next(styles.Length)],
+                Name = names[_random.Next(names.Length)] + _nextId, // Ensure unique-ish name
+                Style = styles[_random.Next(styles.Length)],
                 healthBase = 900 + _random.Next(20) * 10, // 900 to 1080
                 attackMultiplier = 1.0 + _random.NextDouble() * 0.4 - 0.2, // 0.8 to 1.4
                 defenseMultiplier = 1.0 + _random.NextDouble() * 0.2 - 0.1, // 0.9 to 1.1

@@ -23,7 +23,7 @@ namespace GameBackend.Tests
         public void Create_NewCharacter_AddsAndAssignsId()
         {
             // Arrange
-            var character = new FighterCharacter { name = "TestFighter", style = "Boxing" };
+            var character = new FighterCharacter { Name = "TestFighter", Style = "Boxing" };
 
             // Act
             _catalog.Add(character);
@@ -32,15 +32,15 @@ namespace GameBackend.Tests
             // Assert
             Assert.That(_catalog.GetAll().Count, Is.EqualTo(1), "The count should be 1 after adding one character.");
             Assert.That(character.id, Is.GreaterThan(0), "The catalog should assign a unique ID.");
-            Assert.That(retrieved.name, Is.EqualTo("TestFighter"), "The retrieved character name must match.");
+            Assert.That(retrieved.Name, Is.EqualTo("TestFighter"), "The retrieved character name must match.");
         }
 
         [Test]
         public void Read_ExistingCharacter_ReturnsCorrectCharacter()
         {
             // Arrange
-            var character1 = new FighterCharacter { name = "Ryu", style = "Karate" };
-            var character2 = new FighterCharacter { name = "Ken", style = "Karate" };
+            var character1 = new FighterCharacter { Name = "Ryu", Style = "Karate" };
+            var character2 = new FighterCharacter { Name = "Ken", Style = "Karate" };
             _catalog.Add(character1);
             _catalog.Add(character2);
 
@@ -49,24 +49,24 @@ namespace GameBackend.Tests
 
             // Assert
             Assert.That(retrieved, Is.Not.Null);
-            Assert.That(retrieved.name, Is.EqualTo("Ryu"));
+            Assert.That(retrieved.Name, Is.EqualTo("Ryu"));
         }
 
         [Test]
         public void Update_ExistingCharacter_ChangesProperties()
         {
             // Arrange
-            var originalChar = new FighterCharacter { name = "OldName", healthBase = 1000, style = "OldStyle" };
+            var originalChar = new FighterCharacter { Name = "OldName", healthBase = 1000, Style = "OldStyle" };
             _catalog.Add(originalChar);
             int originalId = originalChar.id;
 
             var updatedChar = new FighterCharacter
             {
                 id = originalId,
-                name = "NewName",
+                Name = "NewName",
                 healthBase = 1200, // Stat change
                 attackMultiplier = 1.25,
-                style = "NewStyle"
+                Style = "NewStyle"
             };
 
             // Act
@@ -75,16 +75,16 @@ namespace GameBackend.Tests
 
             // Assert
             Assert.That(success, Is.True, "Update operation should return true on success.");
-            Assert.That(retrieved.name, Is.EqualTo("NewName"));
+            Assert.That(retrieved.Name, Is.EqualTo("NewName"));
             Assert.That(retrieved.healthBase, Is.EqualTo(1200));
-            Assert.That(retrieved.style, Is.EqualTo("NewStyle"));
+            Assert.That(retrieved.Style, Is.EqualTo("NewStyle"));
         }
 
         [Test]
         public void Delete_ExistingCharacter_RemovesFromCatalog()
         {
             // Arrange
-            var characterToDelete = new FighterCharacter { name = "DeletionTarget" };
+            var characterToDelete = new FighterCharacter { Name = "DeletionTarget" };
             _catalog.Add(characterToDelete);
             int idToDelete = characterToDelete.id;
 
@@ -130,7 +130,7 @@ namespace GameBackend.Tests
         public void Update_NonExistentCharacter_ReturnsFalse()
         {
             // Arrange
-            var nonExistentChar = new FighterCharacter { id = 999, name = "Ghost" };
+            var nonExistentChar = new FighterCharacter { id = 999, Name = "Ghost" };
 
             // Act
             bool success = _catalog.Update(nonExistentChar);

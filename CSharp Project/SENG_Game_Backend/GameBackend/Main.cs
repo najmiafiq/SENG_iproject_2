@@ -20,7 +20,7 @@ public class Program
         {
             Console.Clear();
             Console.WriteLine("=============================================");
-            Console.WriteLine("      ⚔️ 2D FIGHTING GAME DATA MANAGER ⚔️      ");
+            Console.WriteLine("           ⚔️ TEMMU DATA MANAGER ⚔️         ");
             Console.WriteLine("=============================================");
             Console.WriteLine("1. Character Catalog (CRUD)");
             Console.WriteLine("2. Data Analysis & Reports");
@@ -131,8 +131,8 @@ public class Program
         {
             var newChar = new FighterCharacter
             {
-                name = name,
-                style = style,
+                Name = name,
+                Style = style,
                 healthBase = 1000,
                 attackMultiplier = 1.0,
                 defenseMultiplier = 1.0,
@@ -141,7 +141,7 @@ public class Program
                 wins = 0
             };
             _catalog.Add(newChar);
-            Console.WriteLine($"\n✅ Character '{newChar.name}' created with ID: {newChar.id}");
+            Console.WriteLine($"\n✅ Character '{newChar.Name}' created with ID: {newChar.id}");
         }
         Console.WriteLine("Press Enter to return...");
         Console.ReadLine();
@@ -166,21 +166,19 @@ public class Program
         }
 
         // Get new values
-        Console.WriteLine($"\n--- Current Data for ID {id} ({characterToUpdate.name}) ---");
-        Console.Write($"Enter new Name (Current: {characterToUpdate.name}): ");
+        Console.WriteLine($"\n--- Current Data for ID {id} ({characterToUpdate.Name}) ---");
+        Console.Write($"Enter new Name (Current: {characterToUpdate.Name}): ");
         string newName = Console.ReadLine();
 
         // Use a ternary operator to keep the old value if the new input is empty
-        string finalName = string.IsNullOrWhiteSpace(newName) ? characterToUpdate.name : newName;
-
-        // In a real application, you'd prompt for all fields with validation.
+        string finalName = string.IsNullOrWhiteSpace(newName) ? characterToUpdate.Name : newName;
 
         // Create an object to pass to the update method
         var updatedModel = new FighterCharacter
         {
             id = id,
-            name = finalName,
-            style = characterToUpdate.style, // Keep old style for simplicity
+            Name = finalName,
+            Style = characterToUpdate.Style, // Keep old style for simplicity
             healthBase = characterToUpdate.healthBase,
             attackMultiplier = characterToUpdate.attackMultiplier,
             defenseMultiplier = characterToUpdate.defenseMultiplier,

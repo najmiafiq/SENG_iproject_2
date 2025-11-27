@@ -33,18 +33,18 @@ namespace SENG_Game_Backend.app
             var topFighters = characters
                 .OrderByDescending(c => c.winRate)
                 .Take(3)
-                .Select((c, index) => new { Rank = index + 1, c.name, c.winRate, c.style });
+                .Select((c, index) => new { Rank = index + 1, c.Name, c.winRate, c.Style });
 
             foreach (var f in topFighters)
             {
-                Console.WriteLine($"#{f.Rank}: {f.name} ({f.style}) - Win Rate: {f.winRate:P2}");
+                Console.WriteLine($"#{f.Rank}: {f.Name} ({f.Style}) - Win Rate: {f.winRate:P2}");
             }
 
             Console.WriteLine("\n--- Style Distribution ---");
 
             // 3. LINQ Query: Grouping by Style and counting
             var styleCounts = characters
-                .GroupBy(c => c.style)
+                .GroupBy(c => c.Style)
                 .Select(g => new { Style = g.Key, Count = g.Count(), AverageAttack = g.Average(c => c.attackMultiplier) })
                 .OrderByDescending(x => x.Count);
 
