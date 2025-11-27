@@ -1,7 +1,11 @@
-# C# Command Line for Save File Management
+# C# Command Line for Characters Data Management
 
-Expanding on the JS game, making a C# CLI program to manage save files and profiles.
+Expanding on the JS game, making a C# CLI program to manage characters (for now).
 
 ## Set-up
 - Clone the repo
 - use dotnet build
+
+
+### TO DO
+- Add profile editor
